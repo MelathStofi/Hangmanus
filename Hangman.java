@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Hangman {
 
@@ -15,9 +16,7 @@ public class Hangman {
         
         boolean win = false;
         while( win = true ){
-
-
-
+        
             // Getting a char input (guessing letter) from the user
             Scanner letter = new Scanner(System.in);
             System.out.println("Guess a letter:");
@@ -35,7 +34,7 @@ public class Hangman {
                     System.out.print("-");
                 }
             }
-            System.out.println('_');
+            System.out.println("");
 
            // System.out.println(guessedFruitLetters);
         };
