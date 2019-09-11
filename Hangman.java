@@ -15,7 +15,7 @@ public class Hangman {
         System.out.println(fruit); // shows the fruit for easier testing
         
         boolean win = false;
-        while( win = true ){
+        while( win != true ){
         
             // Getting a char input (guessing letter) from the user
             Scanner letter = new Scanner(System.in);
