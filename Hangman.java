@@ -24,6 +24,11 @@ public class Hangman {
 	
 		System.out.println(Arrays.toString(words));
 		String word = getRandomWord();
+		char result[] = new char[word.length()];
+		for (int i = 0; i < word.length(); i++) {
+			result[i] = '_';
+		}
+		System.out.println(result);
         System.out.println(word); // shows the word for easier testing
         
         boolean win = false;
