@@ -53,6 +53,20 @@ public class Hangman {
 		}
 		return true;
 	}
+
+	private static boolean playAgainCheck(){
+
+		char playAgain = ' ';
+		while (playAgain != 'y' && playAgain != 'Y') {
+			playAgain = getCharInput();
+			if (playAgain == 'n' || playAgain == 'N') {
+				boolean playTime = false;
+				return playTime;
+			}
+		}
+		boolean playTime = true;
+		return playTime;
+	}
 	
 	public static void main(String[] args) {
 		boolean playTime = true;
@@ -60,16 +74,21 @@ public class Hangman {
 			System.out.println(Arrays.toString(words));
 			String word = getRandomWord();
 			int wrongGuessNumber = 0;
+
 			char[] wrongGuesses = new char[6];
 			char result[] = new char[word.length()];
 			fillResultArray(result, word.length());
 		    System.out.println(word); // shows the word for easier testing
 		    
 		    boolean isWin = false;
-		    while( isWin != true ){
+			boolean gameLose = false;
+		    while( isWin != true && gameLose != true ){
 		    	System.out.println("\nGuess a letter:");
 		        char guessedLetter = getCharInput();
 				boolean isRightGuess = insertLetter(result, guessedLetter, word);
+				if(wrongGuessNumber == wrongGuesses.length - 1){
+					gameLose = true;
+				}
 				if (isRightGuess == false) {
 					wrongGuesses[wrongGuessNumber] = guessedLetter;
 					wrongGuessNumber++;
@@ -77,25 +96,25 @@ public class Hangman {
 				if (wrongGuessNumber != 0) {
 					System.out.println("Wrong letters: ");
 					for (int i = 0; i < wrongGuessNumber; i++) {
-			   			System.out.print(wrongGuesses[i] + "  ");
-			   		}
-			   		System.out.println("");
-		   		}
+						System.out.print(wrongGuesses[i] + "  ");
+					}
+					System.out.println("");
+				}
 		   		System.out.println("");
 		        System.out.println(result);
 		        System.out.println("");
 				isWin = checkWin(result, word.length());
 		    }
-		    System.out.println("\nVictory!\n");
-		    System.out.println("Another game? (y/n): ");
-		    char playAgain = ' ';
-		    while (playAgain != 'y' && playAgain != 'Y') {
-				playAgain = getCharInput();
-				if (playAgain == 'n' || playAgain == 'N') {
-					playTime = false;
-					break;
-				}
-		    }
+		    if(isWin == true){
+				System.out.println("\nVictory!\n");
+				System.out.println("Another game? (y/n): ");
+				playTime = playAgainCheck();
+			}
+			else if(gameLose == true){
+				System.out.println("\nYou lost this one!:(\n");
+				System.out.println("Another game? (y/n): ");
+				playTime = playAgainCheck();
+			}
         }
 	}
 }
