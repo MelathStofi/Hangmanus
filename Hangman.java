@@ -68,6 +68,10 @@ public class Hangman {
 		return playTime;
 	}
 	
+	private static void rajzolosFuggveny() {
+		
+	}
+	
 	public static void main(String[] args) {
 		boolean playTime = true;
 		while (playTime == true) {
