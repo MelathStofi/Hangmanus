@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import com.codecool.termlib.*;
 
 public class Hangman {
 
@@ -9,7 +10,9 @@ public class Hangman {
 		"toxin",
 		"crane",
 		"pastel",
-		"queue"
+		"queue",
+		"asdffddg"
+		
 	};
 	
 	private static String getRandomWord() {
@@ -87,6 +90,10 @@ public class Hangman {
 	}
 	
 	public static void main(String[] args) {
+		
+		Terminal term = new Terminal();
+		term.setColor(Color.GREEN);
+
 		boolean playTime = true;
 		while (playTime == true) {
 			System.out.println(Arrays.toString(words));
