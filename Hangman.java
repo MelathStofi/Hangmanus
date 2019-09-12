@@ -3,7 +3,17 @@ import java.util.Scanner;
 
 public class Hangman {
 
-	private static String[] words = {
+	private static String[] easy = {
+		"pear",
+		"strawberry",
+		"melon",
+		"apple",
+		"banana",
+		"orange",
+		"mango"
+	};
+
+	private static String[] medium = {
 		"caterpillar",
 		"human",
 		"toxin",
@@ -11,8 +21,18 @@ public class Hangman {
 		"pastel",
 		"queue"
 	};
+
+	private static String[] hard = {
+		"rhythmic",
+		"oxygen",
+		"fishhook",
+		"loci",
+		"yacht",
+		"rogue"
+
+	};
 	
-	private static String getRandomWord() {
+	private static String getRandomWord(String[] words) {
 		int arrayLength = words.length;
         int randomChoice = (int)(Math.random()*arrayLength);
         String word = words[randomChoice];
@@ -85,12 +105,31 @@ public class Hangman {
 	private static void rajzolosFuggveny() {
 		
 	}
+
+	public static String[] difficultyChoose(){
+		System.out.println("Ohh, you are here to play a good-old Hangman?\nPlease choose a difficulty level!");
+		System.out.println("Press 1 for easy gameplay\nPress 2 for medium gameplay\nPress 3 for hard gameplay");
+		char difficultyChoice = getCharInput();
+		if(difficultyChoice == '1'){
+			return easy;
+		}
+		if(difficultyChoice == '2'){
+			return medium;
+		}
+		if(difficultyChoice == '3'){
+			return hard;
+		}
+
+		return null;
+	}
 	
 	public static void main(String[] args) {
+		String[] words = difficultyChoose();
+
 		boolean playTime = true;
 		while (playTime == true) {
 			System.out.println(Arrays.toString(words));
-			String word = getRandomWord();
+			String word = getRandomWord(words);
 			int wrongGuessNumber = 0;
 
 			char[] wrongGuesses = new char[6];
