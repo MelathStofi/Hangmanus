@@ -1,8 +1,18 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import java.io.File;
 import com.codecool.termlib.*;
 
 public class Hangman {
+
+	private static String[] files = {
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows1.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows2.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows3.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows4.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows5.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows6.txt"
+	};
 
 	private static String[] easy = {
 		"pear",
@@ -105,8 +115,14 @@ public class Hangman {
 		return playTime;
 	}
 	
-	private static void rajzolosFuggveny() {
-		
+	private static void rajzolosFuggveny(int index, Terminal term) throws java.io.FileNotFoundException {
+		File file = new File(files[index]);
+		Scanner reader = new Scanner(file);
+		while (reader.hasNextLine()) {
+			term.setColor(Color.RED);
+			System.out.println(reader.nextLine());
+			term.setColor(Color.BLUE);
+		}
 	}
 
 	public static String[] difficultyChoose(){
@@ -126,26 +142,19 @@ public class Hangman {
 		return null;
 	}
 	
-	public static void main(String[] args) {
-<<<<<<< HEAD
-		
+	public static void main(String[] args) throws java.io.FileNotFoundException {
 		Terminal term = new Terminal();
-		term.setColor(Color.GREEN);
-=======
-		String[] words = difficultyChoose();
->>>>>>> 008314d86a4540a37a059dd28df12cbaff6c4ac4
-
+		term.setColor(Color.BLUE);
+		
 		boolean playTime = true;
 		while (playTime == true) {
-			System.out.println(Arrays.toString(words));
+			String[] words = difficultyChoose();
 			String word = getRandomWord(words);
 			int wrongGuessNumber = 0;
 
 			char[] wrongGuesses = new char[6];
 			char result[] = new char[word.length()];
 			fillResultArray(result, word.length());
-		    System.out.println(word); // shows the word for easier testing
-		    
 		    boolean isWin = false;
 			boolean gameLose = false;
 		    while( isWin != true && gameLose != true ){
@@ -153,19 +162,20 @@ public class Hangman {
 		        char guessedLetter = getCharInput();
 
 				boolean letterCheck = sameLetterCheck(result,guessedLetter);
-
-				//System.out.println(letterCheck);
 				boolean isRightGuess = insertLetter(result, guessedLetter, word);
-				if(wrongGuessNumber == wrongGuesses.length - 1){
-					gameLose = true;
-				}
+
 				if (isRightGuess == false) {
 					boolean wrongLetterCheck = sameLetterCheck(wrongGuesses,guessedLetter);
 					if(wrongLetterCheck == false){
 						wrongGuesses[wrongGuessNumber] = guessedLetter;
-						wrongGuessNumber++;
+						++wrongGuessNumber;
 					}
 				}
+				
+				if(wrongGuessNumber == wrongGuesses.length){
+					gameLose = true;
+				}
+				
 				if (wrongGuessNumber != 0) {
 					System.out.println("Wrong letters: ");
 					for (int i = 0; i < wrongGuessNumber; i++) {
@@ -173,22 +183,29 @@ public class Hangman {
 					}
 					System.out.println("");
 				}
-				
+				if (wrongGuessNumber > 0) {
+					System.out.println(wrongGuessNumber);
+					rajzolosFuggveny(wrongGuessNumber-1, term);
+				}
 				System.out.println("");
 				System.out.println(result);
 				System.out.println("");
 				isWin = checkWin(result, word.length());
 		    }
 		    if(isWin == true){
+		    	term.setColor(Color.YELLOW);
 				System.out.println("\nVictory!\n");
-				System.out.println("Another game? (y/n): ");
-				playTime = playAgainCheck();
+				term.setColor(Color.BLUE);
+				
 			}
 			else if(gameLose == true){
+				term.setColor(Color.RED);
 				System.out.println("\nYou lost this one!:(\n");
-				System.out.println("Another game? (y/n): ");
-				playTime = playAgainCheck();
+				term.setColor(Color.BLUE);
 			}
+			System.out.println("Another game? (y/n): ");
+			playTime = playAgainCheck();
+			term.clearScreen();
         }
 	}
 }
