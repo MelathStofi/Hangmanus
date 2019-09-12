@@ -4,6 +4,15 @@ import java.io.File;
 
 public class Hangman {
 
+	private static String[] files = {
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows1.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows2.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows3.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows4.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows5.txt",
+		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows6.txt"
+	};
+
 	private static String[] words = {
 		"caterpillar",
 		"human",
@@ -83,21 +92,25 @@ public class Hangman {
 		return playTime;
 	}
 	
-	private static void rajzolosFuggveny() {
-		
+	private static void rajzolosFuggveny(int index) throws java.io.FileNotFoundException {
+		File file = new File(files[index]);
+		Scanner reader = new Scanner(file);
+		while (reader.hasNextLine()) {
+			System.out.println(reader.nextLine());
+		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws java.io.FileNotFoundException {
 		boolean playTime = true;
 		while (playTime == true) {
-			System.out.println(Arrays.toString(words));
+			//System.out.println(Arrays.toString(words));
 			String word = getRandomWord();
 			int wrongGuessNumber = 0;
 
 			char[] wrongGuesses = new char[6];
 			char result[] = new char[word.length()];
 			fillResultArray(result, word.length());
-		    System.out.println(word); // shows the word for easier testing
+		    //System.out.println(word);
 		    
 		    boolean isWin = false;
 			boolean gameLose = false;
@@ -106,19 +119,20 @@ public class Hangman {
 		        char guessedLetter = getCharInput();
 
 				boolean letterCheck = sameLetterCheck(result,guessedLetter);
-
-				//System.out.println(letterCheck);
 				boolean isRightGuess = insertLetter(result, guessedLetter, word);
-				if(wrongGuessNumber == wrongGuesses.length - 1){
-					gameLose = true;
-				}
+
 				if (isRightGuess == false) {
 					boolean wrongLetterCheck = sameLetterCheck(wrongGuesses,guessedLetter);
 					if(wrongLetterCheck == false){
 						wrongGuesses[wrongGuessNumber] = guessedLetter;
-						wrongGuessNumber++;
+						++wrongGuessNumber;
 					}
 				}
+				
+				if(wrongGuessNumber == wrongGuesses.length){
+					gameLose = true;
+				}
+				
 				if (wrongGuessNumber != 0) {
 					System.out.println("Wrong letters: ");
 					for (int i = 0; i < wrongGuessNumber; i++) {
@@ -126,7 +140,10 @@ public class Hangman {
 					}
 					System.out.println("");
 				}
-				
+				if (wrongGuessNumber > 0) {
+					System.out.println(wrongGuessNumber);
+					rajzolosFuggveny(wrongGuessNumber-1);
+				}
 				System.out.println("");
 				System.out.println(result);
 				System.out.println("");
