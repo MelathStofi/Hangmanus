@@ -44,6 +44,20 @@ public class Hangman {
         }
         return isInWord;
 	}
+
+	private static boolean sameLetterCheck(char[] checkingArray, char guessedLetter){
+		int length = checkingArray.length;
+		boolean alreadyGuessed = false;
+		for (int i = 0; i < length; i++){
+			if(checkingArray[i] == guessedLetter){
+				System.out.println("You already guessed this letter!");
+				alreadyGuessed = true;
+				return alreadyGuessed;
+			}
+		}
+		alreadyGuessed = false;
+		return alreadyGuessed;
+	}
 	
 	private static boolean checkWin(char[] result, int length) {
 		for (int i = 0; i < length; i++) {
@@ -85,13 +99,20 @@ public class Hangman {
 		    while( isWin != true && gameLose != true ){
 		    	System.out.println("\nGuess a letter:");
 		        char guessedLetter = getCharInput();
+
+				boolean letterCheck = sameLetterCheck(result,guessedLetter);
+
+				//System.out.println(letterCheck);
 				boolean isRightGuess = insertLetter(result, guessedLetter, word);
 				if(wrongGuessNumber == wrongGuesses.length - 1){
 					gameLose = true;
 				}
 				if (isRightGuess == false) {
-					wrongGuesses[wrongGuessNumber] = guessedLetter;
-					wrongGuessNumber++;
+					boolean wrongLetterCheck = sameLetterCheck(wrongGuesses,guessedLetter);
+					if(wrongLetterCheck == false){
+						wrongGuesses[wrongGuessNumber] = guessedLetter;
+						wrongGuessNumber++;
+					}
 				}
 				if (wrongGuessNumber != 0) {
 					System.out.println("Wrong letters: ");
@@ -100,9 +121,10 @@ public class Hangman {
 					}
 					System.out.println("");
 				}
-		   		System.out.println("");
-		        System.out.println(result);
-		        System.out.println("");
+				
+				System.out.println("");
+				System.out.println(result);
+				System.out.println("");
 				isWin = checkWin(result, word.length());
 		    }
 		    if(isWin == true){
