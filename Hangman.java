@@ -3,8 +3,16 @@ import java.util.Scanner;
 import java.io.File;
 import com.codecool.termlib.*;
 
+/**
+ * This is a hangman game with three difficulty levels.
+ * @author Hangmanus team
+ */
 public class Hangman {
 
+	/**
+	 * Array of the files of the gallows.
+	 * Each gallows files show the next sceene of the gallows.
+	 */
 	private static String[] files = {
 		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows1.txt",
 		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows2.txt",
@@ -14,6 +22,9 @@ public class Hangman {
 		"/home/melath/codecool/OOP/Hangmanus/gallows/gallows6.txt"
 	};
 
+	/**
+	 * Array of the words at easy level
+	 */
 	private static String[] easy = {
 		"pear",
 		"strawberry",
@@ -24,6 +35,9 @@ public class Hangman {
 		"mango"
 	};
 
+	/**
+	 * Array of the words at medium level
+	 */
 	private static String[] medium = {
 		"caterpillar",
 		"human",
@@ -35,6 +49,9 @@ public class Hangman {
 		
 	};
 
+	/**
+	 * Array of the words at hard level
+	 */
 	private static String[] hard = {
 		"rhythmic",
 		"oxygen",
@@ -44,14 +61,26 @@ public class Hangman {
 		"rogue"
 
 	};
-	
+
+	/**
+	 * This method chooses a random element from the given array of strings and returns it.
+	 * @param words
+	 * @return String object
+	 */
 	private static String getRandomWord(String[] words) {
 		int arrayLength = words.length;
         int randomChoice = (int)(Math.random()*arrayLength);
         String word = words[randomChoice];
         return word;
 	}
-	
+
+	/**
+	 * This method urges the user for input.
+	 * It returns the character that was given by the user.
+	 * If it is more characters, it returns the first character.
+	 * If it is neither a character nor a string then it returns null.
+	 * @return char primitive type or null
+	 */
 	private static char getCharInput() {
 	// Getting a char input from the user
         Scanner input = new Scanner(System.in);
@@ -84,12 +113,10 @@ public class Hangman {
 		for (int i = 0; i < length; i++){
 			if(checkingArray[i] == guessedLetter){
 				System.out.println("You already guessed this letter!");
-				alreadyGuessed = true;
-				return alreadyGuessed;
+				return true;
 			}
 		}
-		alreadyGuessed = false;
-		return alreadyGuessed;
+		return false;
 	}
 	
 	private static boolean checkWin(char[] result, int length) {
@@ -107,12 +134,10 @@ public class Hangman {
 		while (playAgain != 'y' && playAgain != 'Y') {
 			playAgain = getCharInput();
 			if (playAgain == 'n' || playAgain == 'N') {
-				boolean playTime = false;
-				return playTime;
+				return false;
 			}
 		}
-		boolean playTime = true;
-		return playTime;
+		return true;
 	}
 	
 	private static void rajzolosFuggveny(int index, Terminal term) throws java.io.FileNotFoundException {
@@ -128,6 +153,7 @@ public class Hangman {
 	public static String[] difficultyChoose(){
 		System.out.println("Ohh, you are here to play a good-old Hangman?\nPlease choose a difficulty level!");
 		System.out.println("Press 1 for easy gameplay\nPress 2 for medium gameplay\nPress 3 for hard gameplay");
+		
 		char difficultyChoice = getCharInput();
 		if(difficultyChoice == '1'){
 			return easy;
